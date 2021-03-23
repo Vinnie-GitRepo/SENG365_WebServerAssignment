@@ -8,7 +8,7 @@
 4. The executor runs the build defined in your `.gitlab-ci.yml` file. Docker compose build follows the `build` steps from `docker-compose.yml` to build the application.
 5. If the `build` step succeeds, the CI runner on the VM then runs the scripts in the `deploy` section of `.gitlab-ci.yml` in the same way. This calls `docker compose down` to stop any previous version of your app, and then `docker compose up` to start your server, mapping your unique `SENG365_PORT` on the VM to port `4941` in the container.
 6. Your application is now up-and-running at `seng365-apitest.csse.canterbury.ac.nz:{SENG365_PORT}` (e.g. http://seng365-apitest.csse.canterbury.ac.nz:4001).
-7. The CI runner then runs the verify scripts in .gitlab-ci.yml, checking that the server has not immediately crashed, and retrieving the logs so far to provide debug information.
+7. The CI runner then runs the verify scripts in  .gitlab-ci.yml, checking that the server has not immediately crashed, and retrieving the logs so far to provide debug information.
 
 Logs for the entire CI process are available in the CI / CD → Pipelines section in your GitLab repo.
 
