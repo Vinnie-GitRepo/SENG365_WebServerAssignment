@@ -6,7 +6,7 @@
 2. You commit your changes to your git repo on `eng-git.canterbury.ac.nz`.
 3. That triggers the GitLab CI runner, which starts a GitLab docker executor on the build VM to build your application within a docker container.
 4. The executor runs the build defined in your `.gitlab-ci.yml` file. Docker compose build follows the `build` steps from `docker-compose.yml` to build the application.
-5. If the `build` step succeeds, the CI runner on the VM then runs the scripts in the `deploy` section of `.gitlab-ci.yml` in the same way. This calls `docker compose down` to stop any previous version of your app, and then `docker compose up` to start your server, mapping your unique `SENG365_PORT` on the VM to port `4941` in the container.
+5. If the `build` step succeeds, the CI runner on the VM then runs the scripts in the `deploy` section of `.gitlab-ci.yml` in the same way. This calls `docker compose down` to stop any previous version of your app, and then `docker compose up` to start your server, mapping your unique `SENG365_PORT` on the VM to port `4021` in the container.
 6. Your application is now up-and-running at `seng365-apitest.csse.canterbury.ac.nz:{SENG365_PORT}` (e.g. http://seng365-apitest.csse.canterbury.ac.nz:4001).
 7. The CI runner then runs the verify scripts in .gitlab-ci.yml, checking that the server has not immediately crashed, and retrieving the logs so far to provide debug information.
 
@@ -20,7 +20,7 @@ Note: The value of ```SENG365_PORT``` is defined for you when the skeleton proje
 2. Create a file called `.env`, following the instructions in the section below
 3. Go to https://dbadmin.csse.canterbury.ac.nz and create a database with the name that you set in the `.env` file
 2. Run `npm run start` or `npm run debug` to start the server
-3. The server will be accessible on `localhost:4941`
+3. The server will be accessible on `localhost:4021`
 
 ### `.env` file
 Create a `.env` file in the root directory of this project including the following information (note that you will need to create the database first in phpMyAdmin):
@@ -54,7 +54,7 @@ There is a webpage set up for you to run some tests on your application. These a
 
 This is only possible when using a lab machine (or by SSHing into your uni account, see pages 6 and 7 of [this CompSoc handout](https://drive.google.com/file/d/0B8dalXEwJSiZYnN5OV8xMFVaSjg/view) for help doing that).
 
-Follow the same steps as for your deployed application, but with a different URL: instead of `seng365-apitest.csse.canterbury.ac.nz`, run `curl ifconfig.me; echo` in a terminal and use the IP address it outputs and port `4941`.
+Follow the same steps as for your deployed application, but with a different URL: instead of `seng365-apitest.csse.canterbury.ac.nz`, run `curl ifconfig.me; echo` in a terminal and use the IP address it outputs and port `4021`.
 
 ## Manual testing, with Postman
 
@@ -77,7 +77,7 @@ To import the environments:
 To choose which application you send your requests to, select the corresponding environment from the dropdown in the top right (by default, it will be "No Environment"). This will set the `BASE_URL` variable.
 
 * "Petitions: deployed application" will use the version of your application that is deployed to the docker container.
-* "Petitions: localhost" will use the locally running application (on port 4941).
+* "Petitions: localhost" will use the locally running application (on port 4021).
 * "Petitions: reference server" will use the reference server.
 
 To test the PUT photo endpoints, you will need to copy the images in `app/resources/postman/files` into your working directory. By default, this will be `~/Postman/files`, but you can check by clicking the spanner icon in the top right, clicking Settings, the scrolling down to Working Directory.
