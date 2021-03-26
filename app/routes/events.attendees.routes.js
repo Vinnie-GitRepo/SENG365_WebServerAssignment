@@ -4,7 +4,8 @@ module.exports = function(app) {
     app.route('/api/events/:event_id/attendees')
         .get(event_attendees.list)
         .post(event_attendees.create)
-        .delete(event_attendees.delete)
+        .delete(event_attendees.delete);
 
     app.route('/api/events/:event_id/attendees/:user_id')
+        .patch(event_attendees.update);
 }

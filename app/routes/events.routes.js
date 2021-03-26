@@ -11,5 +11,5 @@ module.exports = function(app) {
         .delete(events.delete);
 
     app.route('/api/events/categories')
-        .get(events.readCategories);
+        .get(events.getCategories);
 }
