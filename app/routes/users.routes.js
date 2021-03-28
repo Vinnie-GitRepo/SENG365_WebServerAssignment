@@ -8,7 +8,7 @@ module.exports = function(app) {
     app.route('api/users/register')
         .post(users.register);
 
-    app.route('api/users/login')
+    app.route('api/v1/users/login')
         .post(users.login);
 
     app.route('api/users/logout')
