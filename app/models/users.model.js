@@ -8,6 +8,7 @@ exports.create = async function(firstName, lastName, email, password) {
     const values = [firstName, lastName, email, password];
     const conn = await db.getPool().getConnection();
     const result = await conn.query(queryString, values);
+    conn.release();
     return result.insertId;
 }
 
@@ -20,6 +21,7 @@ exports.update = async function(user_id, firstName, lastName, email, password, c
     }
     const values = [firstName, lastName, email, password];
     const conn = await db.getPool().getConnection();
+    conn.release();
     await conn.query(queryString, values);
 
 }
@@ -29,6 +31,7 @@ exports.getUserById = async function(user_id, isCurrentUser = false) {
 
     const conn = await db.getPool().getConnection();
     const result = await conn.query(queryString, [user_id]);
+    conn.release();
     return result;
 }
 
