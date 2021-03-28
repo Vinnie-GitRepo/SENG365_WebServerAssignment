@@ -1,7 +1,7 @@
 const users = require('../controllers/users.controller');
 
 module.exports = function(app) {
-    app.route('/api/users/:user_id')
+    app.route(app.rootUrl + '/users/:user_id')
         .get(users.read)
         .patch(users.update);
 
@@ -11,6 +11,6 @@ module.exports = function(app) {
     app.route(app.rootUrl + '/users/login')
         .post(users.login);
 
-    app.route('api/users/logout')
+    app.route(app.rootUrl + '/users/logout')
         .post(users.logout);
 }
