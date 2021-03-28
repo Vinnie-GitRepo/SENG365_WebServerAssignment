@@ -8,6 +8,12 @@ exports.create = async function(firstName, lastName, email, password) {
 
     try {
 
+        // Crazy regex from https://emailregex.com/
+        if (!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)) {
+            console.log("ERROR: email invalid");
+            return null;
+        }
+
         const values = [
             firstName,
             lastName,
@@ -19,6 +25,7 @@ exports.create = async function(firstName, lastName, email, password) {
         console.log(result);
         return result[0].insertId;
     } catch (err) {
+        console.log("ERROR: Duplicate email");
         return null;
     }
 }
