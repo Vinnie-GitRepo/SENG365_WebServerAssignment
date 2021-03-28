@@ -11,7 +11,6 @@ exports.login = async function(req, res) {
     console.log("\nRequest to log in an existing user...");
 
     res.status(400).send();
-    res.status(500).send();
 };
 
 exports.logout = async function(req, res) {

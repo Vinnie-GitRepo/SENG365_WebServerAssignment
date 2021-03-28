@@ -5,7 +5,7 @@ module.exports = function(app) {
         .get(users.read)
         .patch(users.update);
 
-    app.route('api/users/register')
+    app.route(app.rootUrl + '/users/register')
         .post(users.register);
 
     app.route(app.rootUrl + '/users/login')
