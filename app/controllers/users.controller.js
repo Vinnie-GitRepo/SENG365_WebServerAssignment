@@ -3,23 +3,24 @@ const user = require('../models/users.model');
 
 exports.register = async function(req, res) {
     console.log("\nRequest to register a new user...");
-
-    try {
-        const user_id = user.create(
-            req.body.firstName,
-            req.body.lastName,
-            req.body.email,
-            req.body.password);
-
-        if (user_id === null) {
-            res.status(400).send();
-        }
-        res.status(201).send({"userId": user_id});
-
-    } catch (err) {
-        res.status(500).send();
-        throw err;
-    }
+    res.status(500).send();
+    //
+    // try {
+    //     const user_id = user.create(
+    //         req.body.firstName,
+    //         req.body.lastName,
+    //         req.body.email,
+    //         req.body.password);
+    //
+    //     if (user_id === null) {
+    //         res.status(400).send();
+    //     }
+    //     res.status(201).send({"userId": user_id});
+    //
+    // } catch (err) {
+    //     res.status(500).send();
+    //     throw err;
+    // }
 };
 
 exports.login = async function(req, res) {
