@@ -1,4 +1,5 @@
 const user = require('../models/users.model');
+const passwordHelper = require('../middleware/password.middleware');
 
 /**
  *
@@ -37,7 +38,37 @@ exports.register = async function(req, res) {
 exports.login = async function(req, res) {
     console.log("\nRequest to log in an existing user...");
 
-    res.status(400).send();
+    try {
+
+        const currentUser = await user.findByEmail(req.body.email);
+        console.log(currentUser);
+        console.log("====================================================================");
+        if (currentUser === null) {
+            console.log("ERROR: currentUser is null");
+            res.status(400).send();
+        }
+
+
+        const correctPassword = await passwordHelper.compare(req.body.password, currentUser[0].password);
+        if (!correctPassword) {
+            console.log("ERROR: incorrect password");
+            res.status(400).send();
+        }
+
+        const result = await user.setAuthToken(currentUser.id);
+        if (result === null) {
+            console.log("ERROR: auth_token issue");
+            res.status(400).send();
+        }
+
+        res.status(200).send({
+            "userId": result[0].insertId,
+            "token": result[1]
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send();
+    }
 };
 
 /**

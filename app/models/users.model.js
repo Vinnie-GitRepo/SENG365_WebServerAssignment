@@ -1,6 +1,6 @@
 const db = require('../../config/db');
 const passwordHelper = require('../middleware/password.middleware');
-
+const tokenGenerator = require('rand-token');
 
 exports.create = async function(firstName, lastName, email, password) {
 
@@ -53,8 +53,39 @@ exports.getUserById = async function(user_id, isCurrentUser = false) {
     return result;
 }
 
-exports.login = async function() {
+exports.findByEmail = async function(email) {
+    const queryString = 'SELECT id, email, first_name, last_name, password FROM user WHERE email = ?';
 
+    try {
+        const result = await db.getPool().query(queryString, [email]);
+        if (result.length < 1) {
+            return null;
+        } else {
+            return result[0];
+        }
+    } catch (err) {
+        console.log("ERROR: findByEmail");
+        return null;
+    }
+}
+
+exports.setAuthToken = async function(userId) {
+
+    const queryString = 'UPDATE user SET auth_token = ? WHERE id = ?';
+
+    const auth_token = tokenGenerator.generate(32);
+    const values = [
+        auth_token,
+        userId
+    ];
+
+    try {
+        const result = await db.getPool().query(queryString, values);
+        console.log(result);
+        return [result, auth_token];
+    } catch (err) {
+        return null;
+    }
 }
 
 exports.logout = async function() {
