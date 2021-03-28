@@ -1,29 +1,35 @@
 const db = require('../../config/db');
+const passwordHelper = require('../middleware/password.middleware');
 
 
 exports.create = async function(firstName, lastName, email, password) {
 
     const queryString = 'INSERT INTO user (first_name, last_name, email, password) VALUES (?, ?, ?, ?)';
 
-    const values = [firstName, lastName, email, password];
-    const conn = await db.getPool().getConnection();
-    const result = await conn.query(queryString, values);
-    conn.release();
-    return result.insertId;
+    const values = [
+        firstName,
+        lastName,
+        email,
+        await passwordHelper.hashPassword(password)
+    ];
+
+    const result = await db.getPool().query(queryString, values);
+    console.log(result);
+    return result[0].insertId;
 }
 
 exports.update = async function(user_id, firstName, lastName, email, password, currentPassword) {
 
     const queryString = 'UPDATE user SET ? WHERE id = ?';
 
-    if (password === currentPassword) {
-    //    Hash Password
-    }
-    const values = [firstName, lastName, email, password];
-    const conn = await db.getPool().getConnection();
-    conn.release();
-    await conn.query(queryString, values);
+    const values = [
+        firstName,
+        lastName,
+        email,
+        await passwordHelper.hashPassword(password)
+    ];
 
+    await db.getPool().query(queryString, values);
 }
 
 exports.getUserById = async function(user_id, isCurrentUser = false) {
