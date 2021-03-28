@@ -3,6 +3,8 @@ const user = require('../models/users.model');
 
 exports.register = async function(req, res) {
     console.log("\nRequest to register a new user...");
+
+
 };
 
 exports.login = async function(req, res) {
