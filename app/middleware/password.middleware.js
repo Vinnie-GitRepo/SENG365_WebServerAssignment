@@ -8,8 +8,5 @@ exports.hashPassword = async function(password) {
 exports.compare = async function(password, hash) {
     console.log(password)
     console.log(hash)
-    if (password === hash) {
-        return true;
-    }
     return await bcrypt.compare(password, hash);
 }

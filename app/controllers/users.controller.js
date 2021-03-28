@@ -67,7 +67,7 @@ exports.login = async function(req, res) {
         });
     } catch (err) {
         console.log(err);
-        res.status(500).send();
+        res.status(400).send();
     }
 };
 
