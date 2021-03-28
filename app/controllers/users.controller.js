@@ -47,6 +47,8 @@ exports.login = async function(req, res) {
  */
 exports.logout = async function(req, res) {
     console.log("\nRequest to log out a currently authorised user...");
+
+    res.status(500).send();
 };
 
 /**
@@ -56,9 +58,13 @@ exports.logout = async function(req, res) {
  */
 exports.read = async function(req, res) {
     console.log("\nRequest to retrieve information about a user...");
+    res.status(500).send();
+
 };
 
 exports.update = async function(req, res) {
     console.log("\nRequest to change a user's details...");
+    res.status(500).send();
+
 };
 
