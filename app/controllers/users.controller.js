@@ -41,7 +41,8 @@ exports.login = async function(req, res) {
     try {
 
         const currentUser = await user.findByEmail(req.body.email);
-        console.log(currentUser);
+        // console.log(req.body)
+        // console.log(currentUser);
         console.log("====================================================================");
         if (currentUser === null) {
             console.log("ERROR: currentUser is null");

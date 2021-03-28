@@ -55,13 +55,14 @@ exports.getUserById = async function(user_id, isCurrentUser = false) {
 
 exports.findByEmail = async function(email) {
     const queryString = 'SELECT id, email, first_name, last_name, password FROM user WHERE email = ?';
-
+    // console.log(email);
     try {
         const result = await db.getPool().query(queryString, [email]);
         if (result.length < 1) {
             return null;
         } else {
-            return result[0];
+            // console.log(result)
+            return result;
         }
     } catch (err) {
         console.log("ERROR: findByEmail");
