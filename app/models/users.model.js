@@ -6,16 +6,21 @@ exports.create = async function(firstName, lastName, email, password) {
 
     const queryString = 'INSERT INTO user (first_name, last_name, email, password) VALUES (?, ?, ?, ?)';
 
-    const values = [
-        firstName,
-        lastName,
-        email,
-        await passwordHelper.hashPassword(password)
-    ];
+    try {
 
-    const result = await db.getPool().query(queryString, values);
-    console.log(result);
-    return result[0].insertId;
+        const values = [
+            firstName,
+            lastName,
+            email,
+            await passwordHelper.hashPassword(password)
+        ];
+
+        const result = await db.getPool().query(queryString, values);
+        console.log(result);
+        return result[0].insertId;
+    } catch (err) {
+        return null;
+    }
 }
 
 exports.update = async function(user_id, firstName, lastName, email, password, currentPassword) {
