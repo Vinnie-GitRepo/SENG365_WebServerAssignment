@@ -109,13 +109,13 @@ exports.read = async function (req, res) {
   console.log("\nRequest to retrieve information about a user...");
 
   const userId = req.params.user_id;
-  console.log(req.params);
+  // console.log(req.params);
 
   const token = req.headers["x-authorization"];
   const authorizedUserId = await user.findByToken(token);
 
   try {
-    if (authorizedUserId.toString() === userId) {
+    if (authorizedUserId == userId) {
       const userData = await user.getUserById(userId, true);
       if (userData === null || userData.length === 0) {
         res.status(404).send();
@@ -133,6 +133,7 @@ exports.read = async function (req, res) {
     // }
     // res.status(200).send(userData);
   } catch (err) {
+    // console.log(err);
     res.status(500).send();
   }
 };
