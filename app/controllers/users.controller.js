@@ -89,6 +89,7 @@ exports.logout = async function(req, res) {
 
     try {
         await user.logout(authorizedUserId)
+        res.status(200).send();
     } catch (err) {
         res.status(500).send();
     }
