@@ -43,7 +43,6 @@ exports.login = async function(req, res) {
         const currentUser = await user.findByEmail(req.body.email);
         // console.log(req.body)
         // console.log(currentUser);
-        console.log("==================================================================");
         if (currentUser === null) {
             console.log("ERROR: currentUser is null");
             res.status(400).send();
@@ -56,7 +55,6 @@ exports.login = async function(req, res) {
         }
 
         const result = await user.setAuthToken(currentUser.id);
-        console.log(result);
         if (result === null) {
             console.log("ERROR: auth_token issue");
             res.status(400).send();
@@ -82,8 +80,20 @@ exports.login = async function(req, res) {
 exports.logout = async function(req, res) {
     console.log("\nRequest to log out a currently authorised user...");
 
-    res.status(500).send();
+    const token = req.headers.authorization;
+
+    const authorizedUserId = user.findByToken(token);
+    if (authorizedUserId === null) {
+        res.status(401).send();
+    }
+
+    try {
+        await user.logout(authorizedUserId)
+    } catch (err) {
+        res.status(500).send();
+    }
 };
+
 
 /**
  * @param req

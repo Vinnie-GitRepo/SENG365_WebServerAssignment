@@ -70,6 +70,7 @@ exports.findByEmail = async function(email) {
     }
 }
 
+
 exports.setAuthToken = async function(userId) {
 
     const queryString = 'UPDATE user SET auth_token = ? WHERE id = ?';
@@ -89,6 +90,20 @@ exports.setAuthToken = async function(userId) {
     }
 }
 
-exports.logout = async function() {
 
+exports.findByToken = async function(authToken) {
+    const queryString = "SELECT id FROM user WHERE auth_token = ?";
+
+    try {
+        const authorizedUserId = await db.getPool().query(queryString, [authToken]);
+        return authorizedUserId;
+    } catch (err) {
+        return null;
+    }
+}
+
+
+exports.logout = async function(authorizedUser) {
+    const queryString = 'UPDATE user SET auth_token = NULL WHERE id = ?';
+    await db.getPool().query(queryString, [authorizedUser]);
 }
