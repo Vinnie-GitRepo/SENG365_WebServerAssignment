@@ -80,10 +80,14 @@ exports.login = async function(req, res) {
 exports.logout = async function(req, res) {
     console.log("\nRequest to log out a currently authorised user...");
 
-    const token = req.headers.authorization;
-    console.log(token);
+    const token = req.headers.authorization.split(" ")[1];
 
     const authorizedUserId = await user.findByToken(token);
+
+    // console.log("========================================================");
+    // console.log(authorizedUserId);
+    // console.log("========================================================");
+
     if (authorizedUserId === null) {
         res.status(401).send();
     }

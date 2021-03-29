@@ -44,6 +44,7 @@ exports.update = async function(user_id, firstName, lastName, email, password, c
     await db.getPool().query(queryString, values);
 }
 
+
 exports.getUserById = async function(user_id, isCurrentUser = false) {
     const queryString = 'SELECT first_name, last_name, email FROM user WHERE id = ?';
 
@@ -52,6 +53,7 @@ exports.getUserById = async function(user_id, isCurrentUser = false) {
     conn.release();
     return result;
 }
+
 
 exports.findByEmail = async function(email) {
     const queryString = 'SELECT id, email, first_name, last_name, password FROM user WHERE email = ?';
@@ -95,8 +97,12 @@ exports.findByToken = async function(authToken) {
     const queryString = "SELECT id FROM user WHERE auth_token = ?";
 
     try {
-        const authorizedUserId = await db.getPool().query(queryString, [authToken]);
-        return authorizedUserId[0];
+        const authorizedUserId = await db.getPool().query(queryString, authToken);
+        // console.log("========================================================");
+        // console.log(JSON.stringify(authorizedUserId));
+        // console.log("========================================================");
+        // console.log(authorizedUserId[0][0].id);
+        return authorizedUserId[0][0].id;
     } catch (err) {
         return null;
     }
@@ -104,9 +110,9 @@ exports.findByToken = async function(authToken) {
 
 
 exports.logout = async function(authorizedUserId) {
-    console.log("========================================================");
-    console.log(authorizedUserId);
-    console.log("========================================================");
+    // console.log("========================================================");
+    // console.log(authorizedUserId);
+    // console.log("========================================================");
 
     const queryString = "UPDATE user SET auth_token = NULL WHERE id = ?";
     await db.getPool().query(queryString, authorizedUserId);
