@@ -38,6 +38,8 @@ exports.register = async function (req, res) {
 exports.login = async function (req, res) {
   console.log("\nRequest to log in an existing user...");
 
+  console.log(req.body);
+
   try {
     const currentUser = await user.findByEmail(req.body.email);
     // console.log(req.body)
@@ -107,12 +109,13 @@ exports.read = async function (req, res) {
   console.log("\nRequest to retrieve information about a user...");
 
   const userId = req.params.user_id;
+  console.log(req.params);
 
   const token = req.headers["x-authorization"];
   const authorizedUserId = await user.findByToken(token);
 
   try {
-    if (authorizedUserId === userId) {
+    if (authorizedUserId.toString() === userId) {
       const userData = await user.getUserById(userId, true);
       if (userData === null || userData.length === 0) {
         res.status(404).send();
