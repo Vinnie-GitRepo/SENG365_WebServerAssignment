@@ -59,7 +59,7 @@ exports.getUserById = async function (userId, currentUser = false) {
   try {
     const [result] = await db.getPool().query(queryString, [userId]);
     console.log(result[0]);
-    if (currentUser) {
+    if (!currentUser) {
       return {
         firstName: result[0].first_name,
         lastName: result[0].last_name,
