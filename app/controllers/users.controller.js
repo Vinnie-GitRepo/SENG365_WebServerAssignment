@@ -54,7 +54,7 @@ exports.login = async function(req, res) {
             res.status(400).send();
         }
 
-        const result = await user.setAuthToken(currentUser.id);
+        const result = await user.setAuthToken(currentUser[0].id);
         if (result === null) {
             console.log("ERROR: auth_token issue");
             res.status(400).send();
@@ -81,8 +81,10 @@ exports.logout = async function(req, res) {
     console.log("\nRequest to log out a currently authorised user...");
 
     const token = req.headers.authorization;
+    console.log(token);
 
-    const authorizedUserId = user.findByToken(token);
+    const authorizedUserId = await user.findByToken(token);
+    console.log(authorizedUserId);
     if (authorizedUserId === null) {
         res.status(401).send();
     }
