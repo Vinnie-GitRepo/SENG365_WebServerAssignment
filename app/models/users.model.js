@@ -63,12 +63,12 @@ exports.getUserById = async function (userId, currentUser = false) {
       return {
         firstName: result[0].first_name,
         lastName: result[0].last_name,
-        email: result[0].email,
+        email: result[0].email
       };
     } else {
       return {
         firstName: result[0].first_name,
-        lastName: result[0].last_name,
+        lastName: result[0].last_name
       };
     }
   } catch (err) {

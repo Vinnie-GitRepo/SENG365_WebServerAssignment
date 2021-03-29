@@ -111,9 +111,6 @@ exports.read = async function (req, res) {
   const token = req.headers["x-authorization"];
   const authorizedUserId = await user.findByToken(token);
 
-  if (authorizedUserId === userId) {
-  }
-
   try {
     if (authorizedUserId === userId) {
       const userData = await user.getUserById(userId, true);
