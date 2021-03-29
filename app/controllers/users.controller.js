@@ -84,7 +84,6 @@ exports.logout = async function(req, res) {
     console.log(token);
 
     const authorizedUserId = await user.findByToken(token);
-    console.log(authorizedUserId);
     if (authorizedUserId === null) {
         res.status(401).send();
     }
@@ -93,6 +92,7 @@ exports.logout = async function(req, res) {
         await user.logout(authorizedUserId)
         res.status(200).send();
     } catch (err) {
+        console.log(err)
         res.status(500).send();
     }
 };

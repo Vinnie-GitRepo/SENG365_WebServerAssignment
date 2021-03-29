@@ -96,14 +96,18 @@ exports.findByToken = async function(authToken) {
 
     try {
         const authorizedUserId = await db.getPool().query(queryString, [authToken]);
-        return authorizedUserId;
+        return authorizedUserId[0];
     } catch (err) {
         return null;
     }
 }
 
 
-exports.logout = async function(authorizedUser) {
-    const queryString = 'UPDATE user SET auth_token = NULL WHERE id = ?';
-    await db.getPool().query(queryString, [authorizedUser]);
+exports.logout = async function(authorizedUserId) {
+    console.log("========================================================");
+    console.log(authorizedUserId);
+    console.log("========================================================");
+
+    const queryString = "UPDATE user SET auth_token = NULL WHERE id = ?";
+    await db.getPool().query(queryString, authorizedUserId);
 }
