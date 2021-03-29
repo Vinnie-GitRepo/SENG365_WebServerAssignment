@@ -42,7 +42,7 @@ exports.login = async function(req, res) {
 
         const currentUser = await user.findByEmail(req.body.email);
         // console.log(req.body)
-        console.log(currentUser);
+        // console.log(currentUser);
         console.log("==================================================================");
         if (currentUser === null) {
             console.log("ERROR: currentUser is null");
@@ -56,13 +56,14 @@ exports.login = async function(req, res) {
         }
 
         const result = await user.setAuthToken(currentUser.id);
+        console.log(result);
         if (result === null) {
             console.log("ERROR: auth_token issue");
             res.status(400).send();
         }
 
         res.status(200).send({
-            "userId": result[0].insertId,
+            "userId": currentUser[0].id,
             "token": result[1]
         });
     } catch (err) {
