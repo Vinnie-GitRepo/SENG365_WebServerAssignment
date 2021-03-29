@@ -45,12 +45,19 @@ exports.update = async function(user_id, firstName, lastName, email, password, c
 }
 
 
-exports.getUserById = async function(user_id, isCurrentUser = false) {
+exports.getUserById = async function(userId) {
     const queryString = 'SELECT first_name, last_name, email FROM user WHERE id = ?';
 
-    const conn = await db.getPool().getConnection();
-    const result = await conn.query(queryString, [user_id]);
-    conn.release();
+    try {
+        const [result] = await db.getPool().query(queryString, [userId]);
+        console.log(result);
+        return result;
+    } catch (err) {
+        return null;
+    }
+    // const conn = await db.getPool().getConnection();
+    // const result = await conn.query(queryString, [user_id]);
+    // conn.release();
     return result;
 }
 

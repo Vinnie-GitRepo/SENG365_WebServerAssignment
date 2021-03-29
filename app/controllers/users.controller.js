@@ -105,8 +105,18 @@ exports.logout = async function(req, res) {
  */
 exports.read = async function(req, res) {
     console.log("\nRequest to retrieve information about a user...");
-    res.status(500).send();
 
+    const userId = req.params.user_id;
+
+    try {
+        const userData = await user.getUserById(userId);
+        if (userData === null || userData.length === 0) {
+            res.status(404).send();
+        }
+        res.status(200).send(JSON.stringify(userData[0]));
+    } catch (err) {
+        res.status(500).send();
+    }
 };
 
 exports.update = async function(req, res) {
