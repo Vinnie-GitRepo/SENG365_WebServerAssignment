@@ -79,8 +79,13 @@ exports.login = async function(req, res) {
  */
 exports.logout = async function(req, res) {
     console.log("\nRequest to log out a currently authorised user...");
-    res.status(400).send();
-    const token = req.headers.authorization.split(" ")[1];
+    // res.status(400).send();
+    // console.log(req.headers);
+    // console.log(req.headers.authorization);
+    // console.log("\nRequest to log out a currently authorised user...");
+    //
+    // console.log(req.headers["X-Authorization".toLowerCase()]);
+    const token = req.headers["X-Authorization".toLowerCase()];
 
     const authorizedUserId = await user.findByToken(token);
 
