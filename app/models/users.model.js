@@ -62,7 +62,7 @@ exports.findByEmail = async function(email) {
             return null;
         } else {
             // console.log(result)
-            return result;
+            return result[0];
         }
     } catch (err) {
         console.log("ERROR: findByEmail");

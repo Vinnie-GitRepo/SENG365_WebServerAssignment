@@ -42,15 +42,14 @@ exports.login = async function(req, res) {
 
         const currentUser = await user.findByEmail(req.body.email);
         // console.log(req.body)
-        // console.log(currentUser);
+        console.log(currentUser);
         console.log("====================================================================");
         if (currentUser === null) {
             console.log("ERROR: currentUser is null");
             res.status(400).send();
         }
 
-
-        const correctPassword = await passwordHelper.compare(req.body.password, currentUser[0].password);
+        const correctPassword = await passwordHelper.compare(req.body.password, currentUser.password);
         if (!correctPassword) {
             console.log("ERROR: incorrect password");
             res.status(400).send();
@@ -72,6 +71,7 @@ exports.login = async function(req, res) {
     }
     res.status(500).send();
 };
+
 
 /**
  * @param req
