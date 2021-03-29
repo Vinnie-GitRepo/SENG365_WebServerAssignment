@@ -50,8 +50,12 @@ exports.getUserById = async function(userId) {
 
     try {
         const [result] = await db.getPool().query(queryString, [userId]);
-        console.log(result);
-        return result;
+        console.log(result[0]);
+        return {
+            firstName: result[0].first_name,
+            lastName: result[0].last_name,
+            email: result[0].email
+        };
     } catch (err) {
         return null;
     }

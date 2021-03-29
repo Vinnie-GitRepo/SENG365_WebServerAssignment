@@ -113,7 +113,7 @@ exports.read = async function(req, res) {
         if (userData === null || userData.length === 0) {
             res.status(404).send();
         }
-        res.status(200).send(JSON.stringify(userData[0]));
+        res.status(200).send(userData);
     } catch (err) {
         res.status(500).send();
     }
