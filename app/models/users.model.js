@@ -40,7 +40,7 @@ exports.updateWithPassword = async function (user_id, firstName, lastName, email
   try {
     if (!email.includes("@")) {
       console.log("ERROR: email invalid");
-      return "OK";
+      return null;
     }
 
     const values = [
@@ -51,6 +51,8 @@ exports.updateWithPassword = async function (user_id, firstName, lastName, email
       user_id
     ];
 
+    return null;
+
     await db.getPool().query(queryString, values);
     return "YeGood";
 
@@ -60,7 +62,7 @@ exports.updateWithPassword = async function (user_id, firstName, lastName, email
     console.log(err);
     console.log("===================================================");
     console.log("ERROR: Duplicate email");
-    return null;
+    return "null";
   }
 };
 
