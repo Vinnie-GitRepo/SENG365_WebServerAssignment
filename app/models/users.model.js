@@ -25,17 +25,12 @@ exports.create = async function (firstName, lastName, email, password) {
     ];
 
     const result = await db.getPool().query(queryString, values);
-    console.log(result);
     return result[0].insertId;
   } catch (err) {
     console.log("ERROR: Duplicate email");
     return null;
   }
 };
-
-exports.checkAuthToken = async function(requestAuthToken) {
-  const queryString = "SELECT auth_token "
-}
 
 
 exports.updateWithPassword = async function (user_id, firstName, lastName, email, password) {
@@ -49,9 +44,9 @@ exports.updateWithPassword = async function (user_id, firstName, lastName, email
     }
 
     const values = [
+      email,
       firstName,
       lastName,
-      email,
       await passwordHelper.hashPassword(password),
       user_id
     ];
@@ -79,9 +74,9 @@ exports.updateWithoutPassword = async function (user_id, firstName, lastName, em
     }
 
     const values = [
+      email,
       firstName,
       lastName,
-      email,
       user_id
     ];
 
@@ -126,18 +121,17 @@ exports.getUserById = async function (userId, currentUser = false) {
 
 
 exports.findByEmail = async function (email) {
-  const queryString =
-    "SELECT id, email, first_name, last_name, password FROM user WHERE email = ?";
+  const queryString = "SELECT id, email, first_name, last_name, password FROM user WHERE email = ?";
   // console.log(email);
   try {
     const result = await db.getPool().query(queryString, [email]);
     if (result.length < 1) {
       return null;
     } else {
-      // console.log(result);
-      // console.log("===============================================");
-      // console.log(result[0][0]);
-      // console.log("===============================================");
+      console.log(result);
+      console.log("===============================================");
+      console.log(result[0][0]);
+      console.log("===============================================");
       return result[0][0];
     }
   } catch (err) {
@@ -155,7 +149,7 @@ exports.setAuthToken = async function (userId) {
 
   try {
     const result = await db.getPool().query(queryString, values);
-    console.log(result);
+    // console.log(result);
     return [result, auth_token];
   } catch (err) {
     return null;
