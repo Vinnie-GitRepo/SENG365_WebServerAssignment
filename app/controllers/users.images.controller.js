@@ -4,6 +4,8 @@ const fs = require('fs');
 const getRawBody = require('raw-body');
 
 exports.read = async function(req, res) {
+    res.status(500).send();
+
     console.log("\nRequest to retrieve a user's profile image...");
 
     fs.readFile(`../../storage/images/user${userId}${extension}`, (err, data) => {
@@ -13,6 +15,8 @@ exports.read = async function(req, res) {
 };
 
 exports.update = async function(req, res) {
+    res.status(500).send();
+
     console.log("\nRequest to set a user's profile image...");
 
     const userId = req.params.user_id;
@@ -54,5 +58,6 @@ exports.update = async function(req, res) {
 };
 
 exports.delete = async function(req, res) {
+    res.status(500).send();
     console.log("\nRequest to delete a user's profile image...");
 };

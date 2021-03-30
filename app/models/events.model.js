@@ -11,6 +11,7 @@ exports.findById = async function (eventId) {
   const postQ = camelcaseKeys(result[0]);
   postQ.categories = postQ.categories.split(",");
   postQ.categories = postQ.categories.map(c => parseInt(c));
-  postQ.requiresAttendanceControl = postQ.requiresAttendanceControl === "true"
+  postQ.requiresAttendanceControl = postQ.requiresAttendanceControl === "true";
+  postQ.isOnline = postQ.isOnline === 1;
   return postQ;
 };
