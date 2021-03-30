@@ -45,10 +45,7 @@ exports.updateWithPassword = async function (user_id, firstName, lastName, email
     }
 
     const saltRounds = 10;
-
-    return null;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-    return null;
 
     const values = [
       email,
@@ -69,7 +66,7 @@ exports.updateWithPassword = async function (user_id, firstName, lastName, email
     console.log(err);
     console.log("===================================================");
     console.log("ERROR: Duplicate email");
-    return "null";
+    return null;
   }
 };
 
