@@ -48,21 +48,22 @@ exports.login = async function (req, res) {
 
     const correctPassword = await passwordHelper.compare(
       req.body.password,
-      currentUser[0].password
+      currentUser.password
     );
+
     if (!correctPassword) {
       console.log("ERROR: incorrect password");
       res.status(400).send();
     }
 
-    const result = await user.setAuthToken(currentUser[0].id);
+    const result = await user.setAuthToken(currentUser.id);
     if (result === null) {
       console.log("ERROR: auth_token issue");
       res.status(400).send();
     }
 
     res.status(200).send({
-      userId: currentUser[0].id,
+      userId: currentUser.id,
       token: result[1],
     });
   } catch (err) {
@@ -151,10 +152,18 @@ exports.update = async function (req, res) {
   const token = req.headers["x-authorization"];
   const modificationData = req.body;
 
+  console.log("==========================================");
+  console.log(modificationData);
+  console.log("==========================================");
+
+
   const userExists = (await user.getUserById(userId) !== null);
   if (!userExists) {
     res.status(404).send();
   }
+
+  console.log(await user.findByToken(token));
+  console.log(userId);
 
   const modifyingSelf = (await user.findByToken(token) == userId);
   if (!modifyingSelf) {
