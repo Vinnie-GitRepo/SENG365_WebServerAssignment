@@ -178,20 +178,20 @@ exports.update = async function (req, res) {
   }
 
   if (modificationData.password === "") {
-    res.status(310).send();
+    res.status(407).send();
   }
 
   try {
     if (modificationData.password === modificationData.currentPassword) {
       const result = await user.updateWithoutPassword(userId, modificationData.firstName, modificationData.lastName, modificationData.email);
       if (result === null) {
-        res.status(301).send();
+        res.status(405).send();
       }
       res.status(200).send();
     } else {
       const result = await user.updateWithPassword(userId, modificationData.firstName, modificationData.lastName, modificationData.email, modificationData.password);
       if (result === null) {
-        res.status(307).send();
+        res.status(406).send();
       }
       res.status(200).send();
     }
