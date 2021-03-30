@@ -46,6 +46,7 @@ exports.updateWithPassword = async function (user_id, firstName, lastName, email
 
     const saltRounds = 10;
 
+    return null;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     return null;
 
