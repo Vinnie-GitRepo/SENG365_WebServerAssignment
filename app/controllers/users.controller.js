@@ -156,7 +156,7 @@ exports.update = async function (req, res) {
     res.status(404).send();
   }
 
-  const modifyingSelf = (await user.findByToken(token) === userId);
+  const modifyingSelf = (await user.findByToken(token) == userId);
   if (!modifyingSelf) {
     res.status(403).send();
   }
