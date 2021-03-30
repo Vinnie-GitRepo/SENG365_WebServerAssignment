@@ -30,7 +30,6 @@ exports.register = async function (req, res) {
   }
 };
 
-
 /**
  * @param req
  * @param res
@@ -73,7 +72,6 @@ exports.login = async function (req, res) {
   res.status(500).send();
 };
 
-
 /**
  * @param req
  * @param res
@@ -98,7 +96,6 @@ exports.logout = async function (req, res) {
     res.status(500).send();
   }
 };
-
 
 /**
  * @param req
@@ -134,7 +131,6 @@ exports.read = async function (req, res) {
   }
 };
 
-
 /**
  * @param req
  * @param res
@@ -152,15 +148,13 @@ exports.update = async function (req, res) {
   const token = req.headers["x-authorization"];
   const modificationData = req.body;
 
-
   console.log("==========================================");
   console.log(token);
   console.log("==========================================");
   console.log(modificationData);
   console.log("==========================================");
 
-
-  const userExists = (await user.getUserById(userId) !== null);
+  const userExists = (await user.getUserById(userId)) !== null;
   if (!userExists) {
     res.status(404).send();
   }
@@ -168,7 +162,7 @@ exports.update = async function (req, res) {
   console.log(await user.findByToken(token));
   console.log(userId);
 
-  const modifyingSelf = (await user.findByToken(token) == userId);
+  const modifyingSelf = (await user.findByToken(token)) == userId;
   if (!modifyingSelf) {
     res.status(403).send();
   }
@@ -183,13 +177,33 @@ exports.update = async function (req, res) {
 
   try {
     if (modificationData.password === modificationData.currentPassword) {
-      const result = await user.updateWithoutPassword(userId, modificationData.firstName, modificationData.lastName, modificationData.email);
+      const result = await user.updateWithoutPassword(
+        userId,
+        modificationData.firstName,
+        modificationData.lastName,
+        modificationData.email
+      );
       if (result === null) {
         res.status(405).send();
       }
       res.status(200).send();
     } else {
-      const result = await user.updateWithPassword(userId, modificationData.firstName, modificationData.lastName, modificationData.email, modificationData.password);
+      if (
+        !userId ||
+        !modificationData.firstName ||
+        !modificationData.lastName ||
+        !modificationData.email ||
+        !modificationData.password ||
+        !modificationData.currentPassword
+      )
+        res.status(409).send();
+      const result = await user.updateWithPassword(
+        userId,
+        modificationData.firstName,
+        modificationData.lastName,
+        modificationData.email,
+        modificationData.password
+      );
       if (result === null) {
         res.status(406).send();
       }
