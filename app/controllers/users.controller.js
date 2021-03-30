@@ -152,6 +152,9 @@ exports.update = async function (req, res) {
   const token = req.headers["x-authorization"];
   const modificationData = req.body;
 
+
+  console.log("==========================================");
+  console.log(token);
   console.log("==========================================");
   console.log(modificationData);
   console.log("==========================================");
@@ -175,20 +178,20 @@ exports.update = async function (req, res) {
   }
 
   if (modificationData.password === "") {
-    res.status(400).send();
+    res.status(310).send();
   }
 
   try {
     if (modificationData.password === modificationData.currentPassword) {
       const result = await user.updateWithoutPassword(userId, modificationData.firstName, modificationData.lastName, modificationData.email);
       if (result === null) {
-        res.status(400).send();
+        res.status(301).send();
       }
       res.status(200).send();
     } else {
       const result = await user.updateWithPassword(userId, modificationData.firstName, modificationData.lastName, modificationData.email, modificationData.password);
       if (result === null) {
-        res.status(400).send();
+        res.status(307).send();
       }
       res.status(200).send();
     }
