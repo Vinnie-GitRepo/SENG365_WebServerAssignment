@@ -40,7 +40,7 @@ exports.updateWithPassword = async function (user_id, firstName, lastName, email
   try {
     if (!email.includes("@")) {
       console.log("ERROR: email invalid");
-      return null;
+      return "OK";
     }
 
     const values = [
