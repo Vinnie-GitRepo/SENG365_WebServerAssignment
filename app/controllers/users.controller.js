@@ -153,14 +153,20 @@ exports.update = async function (req, res) {
     res.status(404).send();
   }
 
-  const modifyingSelf = (await user.findByToken(token)) == userId;
+  if (token === null || token === "undefined" || token === undefined) {
+    res.status(401).send();
+  }
+
+  const modifyingSelf = (await user.findByToken(token));
   if (!modifyingSelf) {
+    res.status(401).send();
+  }
+
+  if (!(modifyingSelf == userId)) {
     res.status(403).send();
   }
 
-  if (token === null) {
-    res.status(401).send();
-  }
+
 
 
 
