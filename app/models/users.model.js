@@ -1,6 +1,7 @@
 const db = require("../../config/db");
 const passwordHelper = require("../middleware/password.middleware");
 const tokenGenerator = require("rand-token");
+const bcrypt = require('bcrypt');
 
 exports.create = async function (firstName, lastName, email, password) {
   const queryString =
@@ -43,8 +44,10 @@ exports.updateWithPassword = async function (user_id, firstName, lastName, email
       return null;
     }
 
-    const hashedPassword = await passwordHelper.hashPassword(password);
-    return null
+    const saltRounds = 10;
+
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    return null;
 
     const values = [
       email,
