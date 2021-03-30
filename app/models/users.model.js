@@ -39,7 +39,7 @@ exports.updateWithPassword = async function (user_id, firstName, lastName, email
   const queryString = "UPDATE user SET email = ?, first_name = ?, last_name = ?, password = ? WHERE id = ?";
 
   try {
-    if (!email.includes("@")) {
+    if (!email?.includes("@")) {
       console.log("ERROR: email invalid");
       return null;
     }
