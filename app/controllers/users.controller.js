@@ -145,6 +145,34 @@ exports.update = async function (req, res) {
   console.log("\nRequest to change a user's details...");
 
   const userId = req.params.user_id;
+
+  if(!userId) {
+    res.status(405).send();
+  }
+
+  if(!modificationData.firstName) {
+    res.status(406).send();
+  }
+
+  if(!modificationData.lastName) {
+    res.status(407).send();
+  }
+
+  if(!modificationData.email) {
+    res.status(408).send();
+  }
+
+  if(!modificationData.password) {
+    res.status(409).send();
+  }
+
+  if(!modificationData.currentPassword) {
+    res.status(410).send();
+  }
+
+
+
+  // const userId = req.params.user_id;
   const token = req.headers["x-authorization"];
   const modificationData = req.body;
 
@@ -192,8 +220,7 @@ exports.update = async function (req, res) {
       }
       res.status(200).send();
     } else {
-      if (
-        !userId ||
+      if (!userId ||
         !modificationData.firstName ||
         !modificationData.lastName ||
         !modificationData.email ||
