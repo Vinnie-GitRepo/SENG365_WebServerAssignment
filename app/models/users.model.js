@@ -43,15 +43,18 @@ exports.updateWithPassword = async function (user_id, firstName, lastName, email
       return null;
     }
 
+    const hashedPassword = await passwordHelper.hashPassword(password);
+    return null
+
     const values = [
       email,
       firstName,
       lastName,
-      await passwordHelper.hashPassword(password),
+      hashedPassword,
       user_id
     ];
 
-    return null;
+    // return null;
 
     await db.getPool().query(queryString, values);
     return "YeGood";
