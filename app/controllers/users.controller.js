@@ -171,7 +171,11 @@ exports.update = async function (req, res) {
     res.status(401).send();
   }
 
-  if (modificationData.password === "") {
+  if (
+    modificationData.password === "" ||
+    !modificationData.password ||
+    modificationData.password === "undefined"
+  ) {
     res.status(407).send();
   }
 
