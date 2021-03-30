@@ -52,6 +52,7 @@ exports.updateWithPassword = async function (user_id, firstName, lastName, email
     ];
 
     await db.getPool().query(queryString, values);
+    return "YeGood";
 
 
   } catch (err) {
