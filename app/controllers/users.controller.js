@@ -145,6 +145,8 @@ exports.update = async function (req, res) {
   console.log("\nRequest to change a user's details...");
 
   const userId = req.params.user_id;
+  const modificationData = req.body;
+
 
   if(!userId) {
     res.status(405).send();
@@ -174,7 +176,7 @@ exports.update = async function (req, res) {
 
   // const userId = req.params.user_id;
   const token = req.headers["x-authorization"];
-  const modificationData = req.body;
+  // const modificationData = req.body;
 
   console.log("==========================================");
   console.log(token);
