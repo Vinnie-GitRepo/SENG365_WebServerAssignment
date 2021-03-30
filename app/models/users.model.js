@@ -35,33 +35,34 @@ exports.create = async function (firstName, lastName, email, password) {
 
 exports.updateWithPassword = async function (user_id, firstName, lastName, email, password) {
 
-  const queryString = "UPDATE user SET email = ?, first_name = ?, last_name = ?, password = ? WHERE id = ?";
-
-  try {
-    if (!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)) {
-      console.log("ERROR: email invalid");
-      return null;
-    }
-
-    const values = [
-      email,
-      firstName,
-      lastName,
-      await passwordHelper.hashPassword(password),
-      user_id
-    ];
-
-    await db.getPool().query(queryString, values);
-    return "YeGood";
-
-
-  } catch (err) {
-    console.log("===================================================");
-    console.log(err);
-    console.log("===================================================");
-    console.log("ERROR: Duplicate email");
-    return null;
-  }
+  return "OK";
+  // const queryString = "UPDATE user SET email = ?, first_name = ?, last_name = ?, password = ? WHERE id = ?";
+  //
+  // try {
+  //   if (!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)) {
+  //     console.log("ERROR: email invalid");
+  //     return null;
+  //   }
+  //
+  //   const values = [
+  //     email,
+  //     firstName,
+  //     lastName,
+  //     await passwordHelper.hashPassword(password),
+  //     user_id
+  //   ];
+  //
+  //   await db.getPool().query(queryString, values);
+  //   return "YeGood";
+  //
+  //
+  // } catch (err) {
+  //   console.log("===================================================");
+  //   console.log(err);
+  //   console.log("===================================================");
+  //   console.log("ERROR: Duplicate email");
+  //   return null;
+  // }
 };
 
 exports.updateWithoutPassword = async function (user_id, firstName, lastName, email) {
