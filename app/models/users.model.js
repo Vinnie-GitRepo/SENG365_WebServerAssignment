@@ -34,6 +34,60 @@ exports.create = async function (firstName, lastName, email, password) {
 };
 
 
+
+
+
+
+
+
+exports.updateEmail = async function (email, userId) {
+  const queryString = "UPDATE user SET email = ? WHERE id = ?";
+  try {
+    await db.getPool().query(queryString, [email, userId]);
+  } catch (err) {
+
+  }
+}
+
+exports.updateFirstName = async function (fname, userId) {
+  const queryString = "UPDATE user SET first_name = ? WHERE id = ?";
+
+  try {
+    await db.getPool().query(queryString, [fname, userId]);
+  } catch (err) {
+
+  }
+}
+
+exports.updateLastName = async function (lname, userId) {
+  const queryString = "UPDATE user SET last_name = ? WHERE id = ?";
+
+  try {
+    await db.getPool().query(queryString, [lname, userId]);
+  } catch (err) {
+
+  }
+}
+
+exports.updatePassword = async function (password, userId) {
+  const queryString = "UPDATE user SET password = ? WHERE id = ?";
+
+  try {
+    await db.getPool().query(queryString, [password, userId]);
+  } catch (err) {
+
+  }
+}
+
+
+
+
+
+
+
+
+
+
 exports.updateWithPassword = async function (user_id, firstName, lastName, email, password) {
 
   const queryString = "UPDATE user SET email = ?, first_name = ?, last_name = ?, password = ? WHERE id = ?";
@@ -43,10 +97,6 @@ exports.updateWithPassword = async function (user_id, firstName, lastName, email
       console.log("ERROR: email invalid");
       return null;
     }
-
-    return null;
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     const values = [
       email,

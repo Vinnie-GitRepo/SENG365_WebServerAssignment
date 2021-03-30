@@ -146,51 +146,12 @@ exports.update = async function (req, res) {
 
   const userId = req.params.user_id;
   const modificationData = req.body;
-
-
-  if(!userId) {
-    res.status(405).send();
-  }
-
-  if(!modificationData.firstName) {
-    res.status(406).send();
-  }
-
-  if(!modificationData.lastName) {
-    res.status(407).send();
-  }
-
-  if(!modificationData.email) {
-    res.status(408).send();
-  }
-
-  if(!modificationData.password) {
-    res.status(409).send();
-  }
-
-  if(!modificationData.currentPassword) {
-    res.status(410).send();
-  }
-
-
-
-  // const userId = req.params.user_id;
   const token = req.headers["x-authorization"];
-  // const modificationData = req.body;
-
-  console.log("==========================================");
-  console.log(token);
-  console.log("==========================================");
-  console.log(modificationData);
-  console.log("==========================================");
 
   const userExists = (await user.getUserById(userId)) !== null;
   if (!userExists) {
     res.status(404).send();
   }
-
-  console.log(await user.findByToken(token));
-  console.log(userId);
 
   const modifyingSelf = (await user.findByToken(token)) == userId;
   if (!modifyingSelf) {
@@ -201,47 +162,56 @@ exports.update = async function (req, res) {
     res.status(401).send();
   }
 
+
+
   if (
     modificationData.password === "" ||
     !modificationData.password ||
     modificationData.password === "undefined"
   ) {
-    res.status(407).send();
+    res.status(400).send();
   }
 
   try {
-    if (modificationData.password === modificationData.currentPassword) {
-      const result = await user.updateWithoutPassword(
-        userId,
-        modificationData.firstName,
-        modificationData.lastName,
-        modificationData.email
-      );
-      if (result === null) {
-        res.status(405).send();
-      }
-      res.status(200).send();
-    } else {
-      if (!userId ||
-        !modificationData.firstName ||
-        !modificationData.lastName ||
-        !modificationData.email ||
-        !modificationData.password ||
-        !modificationData.currentPassword
-      )
-        res.status(409).send();
-      const result = await user.updateWithPassword(
-        userId,
-        modificationData.firstName,
-        modificationData.lastName,
-        modificationData.email,
-        modificationData.password
-      );
-      if (result === null) {
-        res.status(406).send();
-      }
-      res.status(200).send();
+
+    if(!!modificationData.firstName) {
+      await user.updateFirstName(modificationData.firstName, userId);
     }
+
+    if(!!modificationData.lastName) {
+      await user.updateLastName(modificationData.lastName, userId);
+    }
+
+    if(!!modificationData.email) {
+      if (!modificationData.email.includes("@")) {
+        res.status(400).send();
+      }
+      await user.updateEmail(modificationData.email, userId);
+    }
+
+    if(!!modificationData.password) {
+      if (!modificationData.currentPassword) {
+        res.status(400).send();
+      }
+      await user.updatePassword(await passwordHelper.hashPassword(modificationData.password), userId);
+    }
+    res.status(200).send();
+
+    // if (modificationData.password === modificationData.currentPassword) {
+    //   const result = await user.updateWithoutPassword(userId, modificationData.firstName, modificationData.lastName, modificationData.email
+    //   );
+    //   if (result === null) {
+    //     res.status(405).send();
+    //   }
+    //   res.status(200).send();
+    // } else {
+    //   const result = await user.updateWithPassword(userId, modificationData.firstName, modificationData.lastName, modificationData.email, modificationData.password
+    //   );
+    //   if (result === null) {
+    //     res.status(406).send();
+    //   }
+    //   res.status(200).send();
+    // }
   } catch (err) {
     res.status(500).send();
   }
