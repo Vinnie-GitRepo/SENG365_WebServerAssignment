@@ -30,6 +30,7 @@ exports.register = async function (req, res) {
   }
 };
 
+
 /**
  * @param req
  * @param res
@@ -38,12 +39,8 @@ exports.register = async function (req, res) {
 exports.login = async function (req, res) {
   console.log("\nRequest to log in an existing user...");
 
-  console.log(req.body);
-
   try {
     const currentUser = await user.findByEmail(req.body.email);
-    // console.log(req.body)
-    // console.log(currentUser);
     if (currentUser === null) {
       console.log("ERROR: currentUser is null");
       res.status(400).send();
@@ -75,6 +72,7 @@ exports.login = async function (req, res) {
   res.status(500).send();
 };
 
+
 /**
  * @param req
  * @param res
@@ -99,6 +97,7 @@ exports.logout = async function (req, res) {
     res.status(500).send();
   }
 };
+
 
 /**
  * @param req
@@ -128,17 +127,63 @@ exports.read = async function (req, res) {
       }
       res.status(200).send(userData);
     }
-    // if (userData === null || userData.length === 0) {
-    //   res.status(404).send();
-    // }
-    // res.status(200).send(userData);
   } catch (err) {
-    // console.log(err);
+    console.log(err);
     res.status(500).send();
   }
 };
 
+
+/**
+ * @param req
+ * @param res
+ * @returns 200 - valid user data provided and correct X-Auth token
+ *          400 - invalid user data provided
+ *          401 - valid user data provided but NULL X-Auth token
+ *          403 - valid user data provided but different X-Auth token
+ *          404 - valid user data provided but no match to existing user
+ *          500 - any other condition
+ */
 exports.update = async function (req, res) {
   console.log("\nRequest to change a user's details...");
-  res.status(500).send();
+
+  const userId = req.params.user_id;
+  const token = req.headers["x-authorization"];
+  const modificationData = req.body;
+
+  const userExists = (await user.getUserById(userId) !== null);
+  if (!userExists) {
+    res.status(404).send();
+  }
+
+  const modifyingSelf = (await user.findByToken(token) === userId);
+  if (!modifyingSelf) {
+    res.status(403).send();
+  }
+
+  if (token === null) {
+    res.status(401).send();
+  }
+
+  if (modificationData.password === "") {
+    res.status(400).send();
+  }
+
+  try {
+    if (modificationData.password === modificationData.currentPassword) {
+      const result = await user.updateWithoutPassword(userId, modificationData.firstName, modificationData.lastName, modificationData.email);
+      if (result === null) {
+        res.status(400).send();
+      }
+      res.status(200).send();
+    } else {
+      const result = await user.updateWithPassword(userId, modificationData.firstName, modificationData.lastName, modificationData.email, modificationData.password);
+      if (result === null) {
+        res.status(400).send();
+      }
+      res.status(200).send();
+    }
+  } catch (err) {
+    res.status(500).send();
+  }
 };

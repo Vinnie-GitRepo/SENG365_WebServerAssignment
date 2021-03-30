@@ -33,25 +33,76 @@ exports.create = async function (firstName, lastName, email, password) {
   }
 };
 
-exports.update = async function (
-  user_id,
-  firstName,
-  lastName,
-  email,
-  password,
-  currentPassword
-) {
+
+// exports.checkEmailInUse = async function (userId, email) {
+//     const queryString = "SELECT email FROM user WHERE id != ?";
+//
+//     try {
+//       result = await db.getPool().query(queryString)
+//     } catch (err) {
+//
+//     }
+// }
+
+
+exports.checkAuthToken = async function(requestAuthToken) {
+  const queryString = "SELECT auth_token "
+}
+
+
+exports.updateWithPassword = async function (user_id, firstName, lastName, email, password) {
+
   const queryString = "UPDATE user SET ? WHERE id = ?";
 
-  const values = [
-    firstName,
-    lastName,
-    email,
-    await passwordHelper.hashPassword(password),
-  ];
+  try {
+    if (!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)) {
+      console.log("ERROR: email invalid");
+      return null;
+    }
 
-  await db.getPool().query(queryString, values);
+    const values = [
+      firstName,
+      lastName,
+      email,
+      await passwordHelper.hashPassword(password),
+    ];
+
+    await db.getPool().query(queryString, values);
+
+
+  } catch (err) {
+    console.log("ERROR: Duplicate email");
+    return null;
+  }
 };
+
+exports.updateWithoutPassword = async function (user_id, firstName, lastName, email) {
+
+  const queryString = "UPDATE user SET ? WHERE id = ?";
+
+  try {
+    if (!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)) {
+      console.log("ERROR: email invalid");
+      return null;
+    }
+
+    const values = [
+      firstName,
+      lastName,
+      email,
+    ];
+
+    await db.getPool().query(queryString, values);
+    return "YeGood";
+
+
+  } catch (err) {
+    console.log("ERROR: Duplicate email");
+    return null;
+  }
+};
+
+
 
 exports.getUserById = async function (userId, currentUser = false) {
   const queryString =
@@ -75,11 +126,8 @@ exports.getUserById = async function (userId, currentUser = false) {
   } catch (err) {
     return null;
   }
-  // const conn = await db.getPool().getConnection();
-  // const result = await conn.query(queryString, [user_id]);
-  // conn.release();
-  return result;
 };
+
 
 exports.findByEmail = async function (email) {
   const queryString =
@@ -99,6 +147,7 @@ exports.findByEmail = async function (email) {
   }
 };
 
+
 exports.setAuthToken = async function (userId) {
   const queryString = "UPDATE user SET auth_token = ? WHERE id = ?";
 
@@ -114,26 +163,20 @@ exports.setAuthToken = async function (userId) {
   }
 };
 
+
 exports.findByToken = async function (authToken) {
   const queryString = "SELECT id FROM user WHERE auth_token = ?";
 
   try {
     const authorizedUserId = await db.getPool().query(queryString, authToken);
-    // console.log("========================================================");
-    // console.log(JSON.stringify(authorizedUserId));
-    // console.log("========================================================");
-    // console.log(authorizedUserId[0][0].id);
     return authorizedUserId[0][0].id;
   } catch (err) {
     return null;
   }
 };
 
-exports.logout = async function (authorizedUserId) {
-  // console.log("========================================================");
-  // console.log(authorizedUserId);
-  // console.log("========================================================");
 
+exports.logout = async function (authorizedUserId) {
   const queryString = "UPDATE user SET auth_token = NULL WHERE id = ?";
   await db.getPool().query(queryString, authorizedUserId);
 };
