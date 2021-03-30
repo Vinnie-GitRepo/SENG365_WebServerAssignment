@@ -23,6 +23,19 @@ exports.create = async function(req, res) {
 exports.read = async function(req, res) {
     console.log("\nRequest to retrieve single event information...");
 
+
+    const eventId = req.params.event_id;
+    // console.log(req.params);
+
+    const event = await events.findById(eventId);
+
+    try {
+        res.status(200).send(event);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send();
+    }
+
     res.status(404).send();
 };
 

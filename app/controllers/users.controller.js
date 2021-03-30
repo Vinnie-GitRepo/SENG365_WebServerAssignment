@@ -157,7 +157,7 @@ exports.update = async function (req, res) {
     res.status(401).send();
   }
 
-  const modifyingSelf = (await user.findByToken(token));
+  const modifyingSelf = await user.findByToken(token);
   if (!modifyingSelf) {
     res.status(401).send();
   }
@@ -165,10 +165,6 @@ exports.update = async function (req, res) {
   if (!(modifyingSelf == userId)) {
     res.status(403).send();
   }
-
-
-
-
 
   if (
     modificationData.password === "" ||
@@ -179,45 +175,31 @@ exports.update = async function (req, res) {
   }
 
   try {
-
-    if(!!modificationData.firstName) {
+    if (!!modificationData.firstName) {
       await user.updateFirstName(modificationData.firstName, userId);
     }
 
-    if(!!modificationData.lastName) {
+    if (!!modificationData.lastName) {
       await user.updateLastName(modificationData.lastName, userId);
     }
 
-    if(!!modificationData.email) {
+    if (!!modificationData.email) {
       if (!modificationData.email.includes("@")) {
         res.status(400).send();
       }
       await user.updateEmail(modificationData.email, userId);
     }
 
-    if(!!modificationData.password) {
+    if (!!modificationData.password) {
       if (!modificationData.currentPassword) {
         res.status(400).send();
       }
-      await user.updatePassword(await passwordHelper.hashPassword(modificationData.password), userId);
+      await user.updatePassword(
+        await passwordHelper.hashPassword(modificationData.password),
+        userId
+      );
     }
     res.status(200).send();
-
-    // if (modificationData.password === modificationData.currentPassword) {
-    //   const result = await user.updateWithoutPassword(userId, modificationData.firstName, modificationData.lastName, modificationData.email
-    //   );
-    //   if (result === null) {
-    //     res.status(405).send();
-    //   }
-    //   res.status(200).send();
-    // } else {
-    //   const result = await user.updateWithPassword(userId, modificationData.firstName, modificationData.lastName, modificationData.email, modificationData.password
-    //   );
-    //   if (result === null) {
-    //     res.status(406).send();
-    //   }
-    //   res.status(200).send();
-    // }
   } catch (err) {
     res.status(500).send();
   }
