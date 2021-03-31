@@ -25,7 +25,10 @@ exports.delete = async function(req, res) {
         res.status(401).send();
     }
 
-
+    const foundUser = await user.findByToken(token);
+    if (!foundUser) {
+        res.status(401).send();
+    }
 
     res.status(500).send();
 };
