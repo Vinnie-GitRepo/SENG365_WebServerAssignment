@@ -14,6 +14,11 @@ exports.create = async function(req, res) {
         res.status(401).send();
     }
 
+    const event = await events.findById(req.params.event_id);
+    if (!event) {
+        res.status(404).send();
+    }
+
     res.status(500).send();
 };
 
