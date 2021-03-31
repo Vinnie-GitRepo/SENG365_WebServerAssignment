@@ -56,15 +56,27 @@ exports.update = async function(req, res) {
 
     const token = req.headers["x-authorization"];
 
+
+
+
     if (!token) {
       res.status(401);
     }
 
     const authorizedUserId = await user.findByToken(token);
 
-    if (userId != authorizedUserId) {
+    const modifyingSelf = await user.findByToken(token);
+    if (!modifyingSelf) {
+        res.status(401).send();
+    }
+
+    if (!(modifyingSelf == userId)) {
         res.status(403).send();
     }
+
+    // if (userId != authorizedUserId) {
+    //     res.status(403).send();
+    // }
 
 
     const fileExtension = getExtension(req.header("Content-Type"));
