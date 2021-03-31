@@ -89,9 +89,9 @@ exports.update = async function(req, res) {
         await user.setImageFilename(filename, userId);
 
         if (currentImageFilename === null || currentImageFilename === "undefined" || currentImageFilename === undefined) {
-            res.status(200).send();
-        } else {
             res.status(201).send();
+        } else {
+            res.status(200).send();
         }
     } catch (err) {
         console.log(err);
