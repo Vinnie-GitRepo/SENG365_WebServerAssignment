@@ -4,7 +4,7 @@ const user = require('../models/users.model');
 exports.list = async function(req, res) {
     console.log("\nRequest to retrieve an event's attendees...");
 
-    if (await events.checkExists(req.params.event_id) === 0) {
+    if (await events.checkExists(req.params.event_id) == 0) {
         res.status(404).send();
     }
 
