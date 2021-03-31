@@ -9,7 +9,6 @@ function getExtension(mimeType) {
     if (mimeType === "image/png") {
         extension = ".png";
     }
-
     return extension;
 }
 
@@ -39,17 +38,7 @@ exports.update = async function(req, res) {
     const image = req.body;
     const userId = req.params.user_id;
 
-    // console.log(req.params);
-    // return;
-    console.log("===========================================");
-
-    console.log(image);
-
-
     const retrievedUser = await user.getUserById(userId);
-    console.log("===========================================");
-
-    console.log(retrievedUser);
     if (!retrievedUser) {
         res.status(404).send();
     }
@@ -69,17 +58,13 @@ exports.update = async function(req, res) {
     }
 
     const fileExtension = getExtension(req.header("Content-Type"));
-    console.log("===========================================");
-    console.log(fileExtension);
     if (fileExtension === null) {
         res.status(400).send();
     }
 
     try {
         const currentImageFilename = await user.getImageFilename(userId);
-        console.log("===========================================");
         console.log(currentImageFilename);
-        console.log("===========================================");
 
         if (currentImageFilename === null || currentImageFilename === "undefined" || currentImageFilename === undefined) {
             await photo.deleteByFilename(currentImageFilename);
@@ -98,6 +83,7 @@ exports.update = async function(req, res) {
         res.status(500);
     }
 }
+
 
 exports.delete = async function(req, res) {
 

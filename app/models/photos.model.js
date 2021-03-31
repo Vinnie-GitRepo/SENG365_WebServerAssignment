@@ -24,16 +24,16 @@ exports.store = async function(image, fileExtension) {
         return filename;
     } catch (err) {
         console.log(err);
-        fs.unlink(imagePath + filename, (err => {console.log(err)})).catch(err => console.error(err));
+        await fs.unlink(imagePath + filename).catch(err => console.error(err));
     }
 }
 
 
 exports.retrieveByFilename = async function(filename) {
     try {
-        const imageExists = await fs.exists(imagePath + filename, (err => {console.log(err)}))
+        const imageExists = await fs.exists(imagePath + filename);
         if (imageExists) {
-            const image = await fs.readFile(imagePath + filename, (err => {console.log(err)}));
+            const image = await fs.readFile(imagePath + filename);
             const mimeType = getMimeType(filename);
             return {image, mimeType};
         } else {
@@ -49,7 +49,7 @@ exports.deleteByFilename = async function(filename) {
     try {
         const imageExists = await fs.exists(imagePath + filename);
         if (imageExists) {
-            await fs.unlink(imagePath + filename, (err => {console.log(err)}));
+            await fs.unlink(imagePath + filename);
         }
     } catch (err) {
         console.log(err);
