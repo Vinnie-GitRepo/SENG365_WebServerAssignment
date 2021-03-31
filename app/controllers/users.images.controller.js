@@ -62,7 +62,7 @@ exports.update = async function(req, res) {
 
     const authorizedUserId = await user.findByToken(token);
 
-    if (userId !== authorizedUserId) {
+    if (userId != authorizedUserId) {
         res.status(403).send();
     }
 
