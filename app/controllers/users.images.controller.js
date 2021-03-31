@@ -56,7 +56,7 @@ exports.update = async function(req, res) {
 
     const token = req.headers["x-authorization"];
 
-    if (token === null) {
+    if (!token) {
       res.status(401);
     }
 
