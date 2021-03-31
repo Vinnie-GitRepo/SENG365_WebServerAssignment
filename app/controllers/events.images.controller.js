@@ -1,4 +1,5 @@
 const events = require('../models/events.model');
+const user =
 
 exports.read = async function(req, res) {
     console.log("\nRequest to retrieve an event's hero image...");
@@ -10,13 +11,15 @@ exports.update = async function(req, res) {
 
     const token = req.headers["x-authorization"];
     if (!token) {
-        res.status(401);
-    }
-
-    const modifyingSelf = await user.findByToken(token);
-    if (!modifyingSelf) {
         res.status(401).send();
     }
 
-    res.status(500);
+
+
+    // const modifyingSelf = await user.findByToken(token);
+    // if (!modifyingSelf) {
+    //     res.status(401).send();
+    // }
+
+    res.status(500).send();
 };
