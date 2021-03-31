@@ -45,7 +45,7 @@ exports.update = async function(req, res) {
 
     const token = req.headers["x-authorization"];
     if (!token) {
-      res.status(401);
+      res.status(401).send();
     }
 
     const modifyingSelf = await user.findByToken(token);

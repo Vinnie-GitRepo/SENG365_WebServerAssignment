@@ -7,6 +7,12 @@ exports.list = async function(req, res) {
 
 exports.create = async function(req, res) {
     console.log("\nRequest to add an attendee to an event...");
+
+    const token = req.headers["x-authorization"];
+    if (!token) {
+        res.status(401).send();
+    }
+
     res.status(500).send();
 };
 
