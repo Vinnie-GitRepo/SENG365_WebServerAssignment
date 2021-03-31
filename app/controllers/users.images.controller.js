@@ -55,15 +55,9 @@ exports.update = async function(req, res) {
     }
 
     const token = req.headers["x-authorization"];
-
-
-
-
     if (!token) {
       res.status(401);
     }
-
-    const authorizedUserId = await user.findByToken(token);
 
     const modifyingSelf = await user.findByToken(token);
     if (!modifyingSelf) {
@@ -73,11 +67,6 @@ exports.update = async function(req, res) {
     if (!(modifyingSelf == userId)) {
         res.status(403).send();
     }
-
-    // if (userId != authorizedUserId) {
-    //     res.status(403).send();
-    // }
-
 
     const fileExtension = getExtension(req.header("Content-Type"));
     console.log("===========================================");
@@ -93,7 +82,7 @@ exports.update = async function(req, res) {
         console.log("===========================================");
 
         let returnOK = false;
-        if (currentImageFilename) {
+        if (currentImageFilename === null || currentImageFilename === "undefined" || currentImageFilename === undefined) {
             returnOK = true;
             await photo.deleteByFilename(currentImageFilename);
         }
@@ -101,7 +90,7 @@ exports.update = async function(req, res) {
         const filename = await photo.store(image, fileExtension);
         await user.setImageFilename(filename, userId);
 
-        if (currentImageFilename) {
+        if (currentImageFilename === null || currentImageFilename === "undefined" || currentImageFilename === undefined) {
             res.status(200).send();
         } else {
             res.status(201).send();
