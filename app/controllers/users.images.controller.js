@@ -37,7 +37,10 @@ exports.update = async function(req, res) {
     console.log("\nRequest to set a user's profile image...");
 
     const image = req.body;
-    const userId = req.params.id;
+    const userId = req.params.user_id;
+
+    console.log(image);
+
 
     const retrievedUser = await user.getUserById(userId);
     if (!retrievedUser) {
