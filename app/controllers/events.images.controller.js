@@ -17,4 +17,6 @@ exports.update = async function(req, res) {
     if (!modifyingSelf) {
         res.status(401).send();
     }
+
+    res.status(500);
 };
