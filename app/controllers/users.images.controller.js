@@ -18,10 +18,19 @@ exports.read = async function(req, res) {
 
     try {
         const filename = await user.getImageFilename(req.params.user_id);
+        console.log("=======================================");
+        console.log(filename);
+        console.log("=======================================");
+
         if (filename == null) {
             res.status(404).send();
         } else {
             const rawImage = await photo.retrieveByFilename(filename);
+            console.log(rawImage.mimeType);
+            console.log("=======================================");
+            console.log(rawImage.image);
+            console.log("=======================================");
+
             res.status(200).contentType(rawImage.mimeType).send(rawImage.image);
         }
     } catch (err) {

@@ -9,7 +9,7 @@ function getMimeType(filename) {
     let mimeType = "image/gif";
     if (filename.endsWith(".jpg") || filename.endsWith(".jpeg")) {
         mimeType = "image/jpeg";
-    } else if (filename.ends(".png")) {
+    } else if (filename.endsWith(".png")) {
         mimeType = "image/png";
     }
     return mimeType;
