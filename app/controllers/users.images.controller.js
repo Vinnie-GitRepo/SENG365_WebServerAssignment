@@ -54,6 +54,19 @@ exports.update = async function(req, res) {
         res.status(404).send();
     }
 
+    const token = req.headers["x-authorization"];
+
+    if (token === null) {
+      res.status(401);
+    }
+
+    const authorizedUserId = await user.findByToken(token);
+
+    if (userId !== authorizedUserId) {
+        res.status(403).send();
+    }
+
+
     const fileExtension = getExtension(req.header("Content-Type"));
     console.log("===========================================");
     console.log(fileExtension);
