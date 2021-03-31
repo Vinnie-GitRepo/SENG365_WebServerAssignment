@@ -95,7 +95,7 @@ exports.update = async function(req, res) {
 exports.delete = async function(req, res) {
     console.log("\nRequest to delete a user's profile image...");
 
-    const userId = req.params.id;
+    const userId = req.params.user_id;
 
     const leBeanBoy = await user.getUserById(userId);
     if (!leBeanBoy) {
@@ -106,7 +106,7 @@ exports.delete = async function(req, res) {
     const token = req.headers["x-authorization"];
     const authorizedUserId = await user.findByToken(token);
 
-    if (userId !== authorizedUserId) {
+    if (userId != authorizedUserId) {
         res.status(403).send();
     }
 
