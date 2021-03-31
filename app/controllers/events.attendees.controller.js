@@ -18,10 +18,22 @@ exports.create = async function(req, res) {
 
 exports.delete = async function(req, res) {
     console.log("\nRequest to remove an attendee from an event...");
+
+    const token = req.headers["x-authorization"];
+    if (!token) {
+        res.status(401).send();
+    }
+
     res.status(500).send();
 };
 
 exports.update = async function(req, res) {
     console.log("\nRequest to change the status of an attendee of an event...");
+
+    const token = req.headers["x-authorization"];
+    if (!token) {
+        res.status(401).send();
+    }
+
     res.status(500).send();
 };

@@ -25,7 +25,10 @@ exports.list = async function(req, res) {
 exports.create = async function(req, res) {
     console.log("\nRequest to create a new event...");
 
-
+    const token = req.headers["x-authorization"];
+    if (!token) {
+        res.status(401).send();
+    }
 
     res.status(400).send();
 };
@@ -54,6 +57,11 @@ exports.read = async function(req, res) {
 exports.update = async function(req, res) {
     console.log("\nRequest to update an events details...");
 
+    const token = req.headers["x-authorization"];
+    if (!token) {
+        res.status(401).send();
+    }
+
     res.status(400).send();
 };
 
@@ -61,10 +69,17 @@ exports.update = async function(req, res) {
 exports.delete = async function(req, res) {
     console.log("\nRequest to delete an event...");
 
-    res.status(401).send();
+    const token = req.headers["x-authorization"];
+    if (!token) {
+        res.status(401).send();
+    }
+
+    res.status(500).send();
 };
 
 
 exports.getCategories = async function(req, res) {
     console.log("\nRequest to retrieve all data about event categories...");
+
+    res.status(500).send();
 };

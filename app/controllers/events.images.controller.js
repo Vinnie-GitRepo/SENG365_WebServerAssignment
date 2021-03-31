@@ -15,11 +15,5 @@ exports.update = async function(req, res) {
     }
 
 
-
-    // const modifyingSelf = await user.findByToken(token);
-    // if (!modifyingSelf) {
-    //     res.status(401).send();
-    // }
-
     res.status(500).send();
 };

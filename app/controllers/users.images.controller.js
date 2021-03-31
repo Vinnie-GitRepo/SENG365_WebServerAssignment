@@ -14,7 +14,6 @@ function getExtension(mimeType) {
 
 
 exports.read = async function(req, res) {
-
     console.log("\nRequest to retrieve a user's profile image...");
 
     try {
@@ -32,7 +31,6 @@ exports.read = async function(req, res) {
 }
 
 exports.update = async function(req, res) {
-
     console.log("\nRequest to set a user's profile image...");
 
     const image = req.body;
@@ -86,7 +84,6 @@ exports.update = async function(req, res) {
 
 
 exports.delete = async function(req, res) {
-
     console.log("\nRequest to delete a user's profile image...");
 
     const userId = req.params.id;
