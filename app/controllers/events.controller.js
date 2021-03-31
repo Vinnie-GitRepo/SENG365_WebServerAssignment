@@ -8,13 +8,24 @@ const events = require('../models/events.model');
  */
 exports.list = async function(req, res) {
     console.log("\nRequest to view all events...");
+    // console.log(req)
+    // console.log(req.params);
+    try {
+        const eventsList = await events.findByParams(req.query);
+        res.status(200).send(eventsList)
+    } catch (err) {
+        console.log(err);
+        res.status(400).send()
+    }
 
-    res.status(400).send();
+    res.status(500).send();
 };
 
 
 exports.create = async function(req, res) {
     console.log("\nRequest to create a new event...");
+
+
 
     res.status(400).send();
 };

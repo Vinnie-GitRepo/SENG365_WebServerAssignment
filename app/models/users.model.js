@@ -231,3 +231,31 @@ exports.logout = async function (authorizedUserId) {
   const queryString = "UPDATE user SET auth_token = NULL WHERE id = ?";
   await db.getPool().query(queryString, authorizedUserId);
 };
+
+
+exports.getImageFilename = async function(userId) {
+  const queryString = "SELECT image_filename FROM user WHERE id = ?";
+
+  try {
+    const result = await db.getPool().query(queryString, userId);
+    return result[0].image_filename;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+}
+
+
+exports.setImageFilename = async function(imageFilename, userId) {
+  const queryString = "UPDATE user SET image_filename = ? WHERE id = ?";
+
+  const values = [imageFilename, userId];
+
+  try {
+    await db.getPool().query(queryString, values);
+  } catch (err) {
+    console.log(err);
+  }
+
+
+}
