@@ -81,7 +81,7 @@ exports.update = async function(req, res) {
         console.log("===========================================");
 
         let returnOK = false;
-        if (!!currentImageFilename) {
+        if (currentImageFilename) {
             returnOK = true;
             await photo.deleteByFilename(currentImageFilename);
         }
@@ -89,7 +89,7 @@ exports.update = async function(req, res) {
         const filename = await photo.store(image, fileExtension);
         await user.setImageFilename(filename, userId);
 
-        if (returnOK) {
+        if (currentImageFilename) {
             res.status(200).send();
         } else {
             res.status(201).send();
