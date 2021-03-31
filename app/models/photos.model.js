@@ -1,5 +1,5 @@
 
-const fs = require('fs');
+const fs = require('mz/fs');
 const tokenGenerator = require('rand-token');
 
 
@@ -20,7 +20,7 @@ exports.store = async function(image, fileExtension) {
     const filename = tokenGenerator.generate(32) + fileExtension;
 
     try {
-        await fs.write(imagePath + filename, image);
+        await fs.writeFile(imagePath + filename, image);
         return filename;
     } catch (err) {
         console.log(err);

@@ -39,21 +39,34 @@ exports.update = async function(req, res) {
     const image = req.body;
     const userId = req.params.user_id;
 
+    // console.log(req.params);
+    // return;
+    console.log("===========================================");
+
     console.log(image);
 
 
     const retrievedUser = await user.getUserById(userId);
+    console.log("===========================================");
+
+    console.log(retrievedUser);
     if (!retrievedUser) {
         res.status(404).send();
     }
 
     const fileExtension = getExtension(req.header("Content-Type"));
+    console.log("===========================================");
+    console.log(fileExtension);
     if (fileExtension === null) {
         res.status(400).send();
     }
 
     try {
         const currentImageFilename = await user.getImageFilename(userId);
+        console.log("===========================================");
+        console.log(currentImageFilename);
+        console.log("===========================================");
+
         let returnOK = false;
         if (currentImageFilename) {
             await photo.deleteByFilename(currentImageFilename);
@@ -61,7 +74,7 @@ exports.update = async function(req, res) {
         }
 
         const filename = await photo.store(image, fileExtension);
-        await user.setImageFilename(userId, filename);
+        await user.setImageFilename(filename, userId);
 
         if (returnOK) {
             res.status(200).send();
