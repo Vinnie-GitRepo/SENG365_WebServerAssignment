@@ -23,7 +23,7 @@ exports.read = async function(req, res) {
             res.status(404).send();
         } else {
             const rawImage = await photo.retrieveByFilename(filename);
-            res.status(200).contentType(rawImage.mimeType).send(rawImage);
+            res.status(200).contentType(rawImage.mimeType).send(rawImage.image);
         }
     } catch (err) {
         console.log(err);
