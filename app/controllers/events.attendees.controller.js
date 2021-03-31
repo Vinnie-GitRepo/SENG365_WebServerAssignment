@@ -1,4 +1,5 @@
 const events = require('../models/events.model');
+const user = require('../models/users.model');
 
 exports.list = async function(req, res) {
     console.log("\nRequest to retrieve an event's attendees...");
@@ -24,6 +25,8 @@ exports.delete = async function(req, res) {
         res.status(401).send();
     }
 
+
+
     res.status(500).send();
 };
 
@@ -32,6 +35,11 @@ exports.update = async function(req, res) {
 
     const token = req.headers["x-authorization"];
     if (!token) {
+        res.status(401).send();
+    }
+
+    const foundUser = await user.findByToken(token);
+    if (!foundUser) {
         res.status(401).send();
     }
 
