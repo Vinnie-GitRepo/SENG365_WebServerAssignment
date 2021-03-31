@@ -82,8 +82,8 @@ exports.update = async function(req, res) {
 
         let returnOK = false;
         if (currentImageFilename) {
-            await photo.deleteByFilename(currentImageFilename);
             returnOK = true;
+            await photo.deleteByFilename(currentImageFilename);
         }
 
         const filename = await photo.store(image, fileExtension);
