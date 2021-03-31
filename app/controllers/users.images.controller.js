@@ -81,9 +81,7 @@ exports.update = async function(req, res) {
         console.log(currentImageFilename);
         console.log("===========================================");
 
-        let returnOK = false;
         if (currentImageFilename === null || currentImageFilename === "undefined" || currentImageFilename === undefined) {
-            returnOK = true;
             await photo.deleteByFilename(currentImageFilename);
         }
 

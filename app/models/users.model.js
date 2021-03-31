@@ -238,10 +238,10 @@ exports.getImageFilename = async function(userId) {
 
   try {
     const result = await db.getPool().query(queryString, userId);
-    if (result.length) {
-      console.log(result);
-      return result[0].image_filename;
-    }
+    // if (result.length) {
+    console.log(result);
+    return result[0][0].image_filename;
+    // /}
   } catch (err) {
     console.log(err);
   }
